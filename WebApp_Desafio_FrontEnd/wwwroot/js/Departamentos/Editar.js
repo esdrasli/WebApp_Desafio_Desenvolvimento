@@ -7,8 +7,7 @@
         calendarWeeks: false,
         format: 'dd/mm/yyyy',
         autoclose: true,
-        language: 'pt-BR',
-        startDate: '0d'
+        language: 'pt-BR'
     });
 
     $('#btnCancelar').click(function () {
@@ -20,7 +19,7 @@
             if (result.value) {
                 history.back();
             } else {
-                console.log("Cancelou a inclusão.");
+                console.log("Cancelou a edição.");
             }
         });
     });
@@ -34,8 +33,6 @@
 
         let chamado = SerielizeForm($('#form'));
         let url = $('#form').attr('action');
-
-
 
         $.ajax({
             type: "POST",
@@ -61,31 +58,6 @@
                 });
 
             },
-        });
-
-        $('#form').validate({
-            rules: {
-                Assunto: {
-                    required: true,
-                    maxlength: 100
-                },
-                Solicitante: {
-                    required: true,
-                    maxlength: 100
-                },
-
-            },
-            messages: {
-                Assunto: {
-                    required: "Por favor, informe o assunto.",
-                    maxlength: "O assunto deve ter no máximo {0} caracteres."
-                },
-                Solicitante: {
-                    required: "Por favor, informe o nome do solicitante.",
-                    maxlength: "O campo de nome deve ter no máximo {0} caracteres."
-                },
-
-            }
         });
     });
 

@@ -100,28 +100,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             {
                 return BadRequest(new ResponseViewModel(ex));
             }
-        }
-
-        [HttpGet]
-        public IActionResult Editar([FromRoute] int id)
-        {
-            ViewData["Title"] = "Cadastrar Novo Chamado";
-
-            try
-            {
-                var chamadosApiClient = new ChamadosApiClient();
-                var chamadoVM = chamadosApiClient.ChamadoObter(id);
-
-                var departamentosApiClient = new DepartamentosApiClient();
-                ViewData["ListaDepartamentos"] = departamentosApiClient.DepartamentosListar();
-
-                return View("Cadastrar", chamadoVM);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseViewModel(ex));
-            }
-        }
+        }        
 
         [HttpDelete]
         public IActionResult Excluir([FromRoute] int id)
@@ -171,28 +150,49 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             return File(reportResult.MainStream, "application/octet-stream", "rptChamados.pdf");
         }
 
+        //[HttpGet]
+        //public IActionResult Editar([FromRoute] int id)
+        //{
+        //    ViewData["Title"] = "Editar Novo Chamado";
+
+        //    try
+        //    {
+        //        var chamadosApiClient = new ChamadosApiClient();
+        //        var chamadoVM = chamadosApiClient.ChamadoObter(id);
+
+        //        var departamentosApiClient = new DepartamentosApiClient();
+        //        ViewData["ListaDepartamentos"] = departamentosApiClient.DepartamentosListar();
+
+        //        return View("Editar", chamadoVM);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new ResponseViewModel(ex));
+        //    }
+        //}
+
+        //[HttpGet]
+        //public IActionResult EditarChamado(int id)
+        //{
+        //    ViewData["Title"] = "Editar Chamado";
+
+        //    try
+        //    {
+        //        var chamadosApiClient = new ChamadosApiClient();
+        //        var chamadoVM = chamadosApiClient.ChamadoObter(id);
+
+        //        var departamentosApiClient = new DepartamentosApiClient();
+        //        ViewData["ListaDepartamentos"] = departamentosApiClient.DepartamentosListar();
+
+        //        return View("Editar", chamadoVM);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new ResponseViewModel(ex));
+        //    }
+        //}
+
         [HttpGet]
-        public IActionResult EditarChamado(int id)
-        {
-            ViewData["Title"] = "Editar Chamado";
-
-            try
-            {
-                var chamadosApiClient = new ChamadosApiClient();
-                var chamadoVM = chamadosApiClient.ChamadoObter(id);
-
-                var departamentosApiClient = new DepartamentosApiClient();
-                ViewData["ListaDepartamentos"] = departamentosApiClient.DepartamentosListar();
-
-                return View("Editar", chamadoVM);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseViewModel(ex));
-            }
-        }
-
-        [HttpPost]
         public IActionResult Editar(ChamadoViewModel chamadoVM)
         {
             try
@@ -201,11 +201,7 @@ namespace WebApp_Desafio_FrontEnd.Controllers
                 var realizadoComSucesso = chamadosApiClient.ChamadoAtualizar(chamadoVM.ID, chamadoVM);
 
                 if (realizadoComSucesso)
-                    return Ok(new ResponseViewModel(
-                                $"Chamado {chamadoVM.ID} atualizado com sucesso!",
-                                AlertTypes.success,
-                                "Chamados",
-                                nameof(Listar)));
+                    return RedirectToAction(nameof(Listar));
                 else
                     throw new ApplicationException($"Falha ao atualizar o Chamado {chamadoVM.ID}.");
             }
