@@ -171,45 +171,84 @@ namespace WebApp_Desafio_FrontEnd.Controllers
         //    }
         //}
 
-        //[HttpGet]
-        //public IActionResult EditarChamado(int id)
-        //{
-        //    ViewData["Title"] = "Editar Chamado";
-
-        //    try
-        //    {
-        //        var chamadosApiClient = new ChamadosApiClient();
-        //        var chamadoVM = chamadosApiClient.ChamadoObter(id);
-
-        //        var departamentosApiClient = new DepartamentosApiClient();
-        //        ViewData["ListaDepartamentos"] = departamentosApiClient.DepartamentosListar();
-
-        //        return View("Editar", chamadoVM);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ResponseViewModel(ex));
-        //    }
-        //}
-
         [HttpGet]
-        public IActionResult Editar(ChamadoViewModel chamadoVM)
+        public IActionResult EditarChamado(int id)
         {
+            ViewData["Title"] = "Editar Chamado";
+
+            //try
+            //{
+            //    var chamadosApiClient = new ChamadosApiClient();
+            //    var chamadoVM = chamadosApiClient.ChamadoObter(id);
+
+            //    var departamentosApiClient = new DepartamentosApiClient();
+            //    ViewData["ListaDepartamentos"] = departamentosApiClient.DepartamentosListar();
+
+            //    return View("Editar", chamadoVM);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest(new ResponseViewModel(ex));
+            //}
             try
             {
                 var chamadosApiClient = new ChamadosApiClient();
-                var realizadoComSucesso = chamadosApiClient.ChamadoAtualizar(chamadoVM.ID, chamadoVM);
+                var chamado = chamadosApiClient.ChamadoObter(id);
 
-                if (realizadoComSucesso)
-                    return RedirectToAction(nameof(Listar));
-                else
-                    throw new ApplicationException($"Falha ao atualizar o Chamado {chamadoVM.ID}.");
+                if (chamado == null)
+                {
+                    return NotFound();
+                }
+
+                var chamadoVM = new ChamadoViewModel()
+                {
+                    ID = chamado.ID,
+                    Assunto = chamado.Assunto,
+                    Solicitante = chamado.Solicitante,
+                    DataAbertura = chamado.DataAbertura,
+                    DataAberturaWrapper = chamado.DataAberturaWrapper,
+                    Departamento = chamado.Departamento,
+                    IdDepartamento = chamado.IdDepartamento
+                    
+
+                };
+
+                ViewData["Title"] = "Editar Chamado";
+
+                var departamentosApiClient = new DepartamentosApiClient();
+                ViewData["ListaDepartamentos"] = departamentosApiClient.DepartamentosListar();
+
+                return View("Editar", chamadoVM);
             }
             catch (Exception ex)
             {
                 return BadRequest(new ResponseViewModel(ex));
             }
         }
+
+        [HttpPost]
+        public IActionResult Editar(int id, ChamadoViewModel chamadoVM)
+        {
+            try
+            {
+                var chamadosApiClient = new ChamadosApiClient();
+
+                // Atualiza o ID do chamado para garantir que corresponda ao ID fornecido
+                chamadoVM.ID = id;
+
+                var realizadoComSucesso = chamadosApiClient.ChamadoAtualizar(id, chamadoVM);
+
+                if (realizadoComSucesso)
+                    return RedirectToAction(nameof(Listar));
+                else
+                    throw new ApplicationException($"Falha ao atualizar o Chamado {id}.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseViewModel(ex));
+            }
+        }
+
 
 
     }

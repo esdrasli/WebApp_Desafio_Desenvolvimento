@@ -174,13 +174,13 @@ namespace WebApp_Desafio_API.Controllers
         /// <summary>
         /// Atualiza os dados de um chamado específico
         /// </summary>
-        [HttpPut]
+        [HttpPost]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        [Route("Atualizar/{idChamado}")]
-        public IActionResult Atualizar(int idChamado, [FromBody] ChamadoRequest request)
+        [Route("Editar/{idChamado}")]
+        public IActionResult Editar(int idChamado, [FromBody] ChamadoRequest request)
         {
             try
             {

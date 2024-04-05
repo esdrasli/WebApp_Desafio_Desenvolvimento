@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCore.Reporting;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using WebApp_Desafio_FrontEnd.ApiClients.Desafio_API;
 using WebApp_Desafio_FrontEnd.ViewModels;
 
@@ -7,6 +10,14 @@ namespace WebApp_Desafio_FrontEnd.Controllers
 {
     public class DepartamentosController : Controller
     {
+        private readonly IHostingEnvironment _hostEnvironment;
+
+        public DepartamentosController(IHostingEnvironment hostEnvironment)
+        {
+            _hostEnvironment = hostEnvironment;
+        }
+
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -139,6 +150,31 @@ namespace WebApp_Desafio_FrontEnd.Controllers
             {
                 return BadRequest(new ResponseViewModel(ex));
             }
+        }
+
+        [HttpGet]
+        public IActionResult Report()
+        {
+            string mimeType = string.Empty;
+            int extension = 1;
+            string contentRootPath = _hostEnvironment.ContentRootPath;
+            string path = Path.Combine(contentRootPath, "wwwroot", "reports", "rptChamados.rdlc");
+            //
+            // ... parameters
+            //
+            LocalReport localReport = new LocalReport(path);
+
+            // Carrega os dados que serão apresentados no relatório
+            var departamentosApiClient = new DepartamentosApiClient();
+            var lstDepartamentos = departamentosApiClient.DepartamentosListar();
+
+            localReport.AddDataSource("dsDepartamentos", lstDepartamentos);
+
+            // Renderiza o relatório em PDF
+            ReportResult reportResult = localReport.Execute(RenderType.Pdf);
+
+            //return File(reportResult.MainStream, "application/pdf");
+            return File(reportResult.MainStream, "application/octet-stream", "rptChamados.pdf");
         }
     }
 }

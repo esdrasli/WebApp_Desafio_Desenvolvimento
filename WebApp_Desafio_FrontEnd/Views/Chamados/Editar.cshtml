@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-lg-5 col-md-4 col-sm-8">
+                <div class="form-group col-lg-7 col-md-6 col-sm-12">
                     <label class="form-label" asp-for="Departamento"></label>
                     <select data-placeholder="Selecionar" class="form-control chosen-select" asp-for="IdDepartamento" id="Departamento">
                         <option value=""></option>
@@ -50,13 +50,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group col-lg-7 col-md-6 col-sm-12">
                     <label class="form-label" asp-for="DataAbertura"></label>
 
                     <div class="input-group date" data-provide="datepicker">
                         <input type="text" class="form-control" asp-for="DataAbertura" asp-format="{0:dd/MM/yyyy}" />
                         <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
+                            <span style="font-size: 1.2em" class="glyphicon glyphicon-calendar"></span>
                         </div>
                     </div>
                     <span class="text-danger" asp-validation-for="DataAbertura"></span>

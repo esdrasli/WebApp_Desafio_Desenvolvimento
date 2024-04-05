@@ -25,21 +25,19 @@
     });
 
     $('#btnSalvar').click(function () {
-
         if ($('#form').valid() != true) {
             FormularioInvalidoAlert();
             return;
         }
 
         let chamado = SerielizeForm($('#form'));
-        let url = $('#form').attr('action');
+        let url = `/Chamados/Editar/${chamado.ID}`;
 
         $.ajax({
             type: "POST",
             url: url,
             data: chamado,
             success: function (result) {
-
                 Swal.fire({
                     type: result.Type,
                     title: result.Title,
@@ -47,18 +45,16 @@
                 }).then(function () {
                     window.location.href = config.contextPath + result.Controller + '/' + result.Action;
                 });
-
             },
             error: function (result) {
-
                 Swal.fire({
                     text: result,
                     confirmButtonText: 'OK',
                     icon: 'error'
                 });
-
             },
         });
     });
+
 
 });

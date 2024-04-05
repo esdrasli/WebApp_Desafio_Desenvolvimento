@@ -76,6 +76,12 @@ namespace WebApp_Desafio_FrontEnd
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "EditarChamado",
+                    template: "Chamados/Editar/{id}",
+                    defaults: new { controller = "Chamados", action = "EditarChamado" }
+                );
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

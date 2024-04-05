@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using WebApp_Desafio_FrontEnd.ViewModels;
 
@@ -12,7 +13,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
         private const string chamadosObterUrl = "api/Chamados/Obter";
         private const string chamadosGravarUrl = "api/Chamados/Gravar";
         private const string chamadosExcluirUrl = "api/Chamados/Excluir";
-        private const string chamadosAtualizarUrl = "api/Chamados/Atualizar";
+        private const string chamadosAtualizarUrl = "api/Chamados/Editar";
 
         private string desafioApiUrl = "https://localhost:44388/"; // Endereço API IIS-Express
 
@@ -51,7 +52,7 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
                 { "idChamado", idChamado }
             };
 
-            var response = base.Get($"{desafioApiUrl}{chamadosObterUrl}", querys, headers);
+            var response = base.Get($"{desafioApiUrl}{chamadosObterUrl}/{idChamado}", querys, headers);
 
             base.EnsureSuccessStatusCode(response);
 
@@ -99,18 +100,39 @@ namespace WebApp_Desafio_FrontEnd.ApiClients.Desafio_API
 
         public bool ChamadoAtualizar(int idChamado, ChamadoViewModel chamado)
         {
-            var headers = new Dictionary<string, object>()
+            //var headers = new Dictionary<string, object>()
+            //{
+            //    { "TokenAutenticacao", tokenAutenticacao }
+            //};
+
+            //var response = base.Put($"{desafioApiUrl}{chamadosAtualizarUrl}/{idChamado}", chamado, headers);
+
+            //base.EnsureSuccessStatusCode(response);
+
+            //string json = base.ReadHttpWebResponseMessage(response);
+
+            //return JsonConvert.DeserializeObject<bool>(json);
+            try
             {
-                { "TokenAutenticacao", tokenAutenticacao }
-            };
+                var data = new { chamado };
+                var jsonData = JsonConvert.SerializeObject(data);
+                var headers = new Dictionary<string, object>()
+        {
+            { "Content-Type", "application/json" }
+        };
 
-            var response = base.Put($"{desafioApiUrl}{chamadosAtualizarUrl}/{idChamado}", chamado, headers);
+                var response = base.Post($"{desafioApiUrl}{chamadosAtualizarUrl}/{idChamado}", jsonData, headers);
+                base.EnsureSuccessStatusCode(response);
+                string json = base.ReadHttpWebResponseMessage(response);
+                var req = JsonConvert.DeserializeObject<bool>(json);
 
-            base.EnsureSuccessStatusCode(response);
-
-            string json = base.ReadHttpWebResponseMessage(response);
-
-            return JsonConvert.DeserializeObject<bool>(json);
+                return req;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao atualizar departamento: {ex.Message}");
+                return false;
+            }
         }
     }
 

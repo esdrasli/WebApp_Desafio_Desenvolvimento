@@ -24,7 +24,7 @@
     });
 
     $('#btnRelatorio').click(function () {
-        window.location.href = config.contextPath + 'departamentos/Report';
+        window.location.href = config.contextPath + 'Departamentos/Report';
     });
 
     $('#btnAdicionar').click(function () {
