@@ -14,6 +14,14 @@
         ],
     });
 
+    $('#dataTables-Departamentos tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        if (data) {
+            window.location.href = config.contextPath + 'Departamentos/Editar/' + data.ID;
+        }
+    });
+
+
     $('#dataTables-Departamentos tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');

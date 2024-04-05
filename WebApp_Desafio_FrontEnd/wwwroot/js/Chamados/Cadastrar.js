@@ -11,6 +11,31 @@
         startDate: '0d'
     });
 
+    $('#form').validate({
+        rules: {
+            Assunto: {
+                required: true,
+                maxlength: 30
+            },
+            Solicitante: {
+                required: true,
+                maxlength: 30
+            },
+
+        },
+        messages: {
+            assunto: {
+                required: "Por favor, informe o assunto.",
+                maxlength: "O assunto deve ter no máximo {0} caracteres."
+            },
+            solicitante: {
+                required: "Por favor, informe o nome do solicitante.",
+                maxlength: "O campo de nome deve ter no máximo {0} caracteres."
+            },
+
+        }
+    });
+
     $('#btnCancelar').click(function () {
         Swal.fire({
             html: "Deseja cancelar essa operação? O registro não será salvo.",
@@ -62,31 +87,7 @@
 
             },
         });
-
-        $('#form').validate({
-            rules: {
-                Assunto: {
-                    required: true,
-                    maxlength: 100
-                },
-                Solicitante: {
-                    required: true,
-                    maxlength: 100
-                },
-
-            },
-            messages: {
-                Assunto: {
-                    required: "Por favor, informe o assunto.",
-                    maxlength: "O assunto deve ter no máximo {0} caracteres."
-                },
-                Solicitante: {
-                    required: "Por favor, informe o nome do solicitante.",
-                    maxlength: "O campo de nome deve ter no máximo {0} caracteres."
-                },
-
-            }
-        });
+        
     });
 
 });

@@ -17,6 +17,13 @@
         ],
     });
 
+    $('#dataTables-Chamados tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        if (data) {
+            window.location.href = config.contextPath + 'Chamados/Editar/' + data.ID;
+        }
+    });
+
     $('#dataTables-Chamados tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');

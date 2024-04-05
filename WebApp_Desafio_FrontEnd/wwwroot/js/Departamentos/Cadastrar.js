@@ -33,7 +33,6 @@
 
         let chamado = SerielizeForm($('#form'));
         let url = $('#form').attr('action');
-        //debugger;
 
         $.ajax({
             type: "POST",
@@ -61,5 +60,6 @@
             },
         });
     });
+
 
 });

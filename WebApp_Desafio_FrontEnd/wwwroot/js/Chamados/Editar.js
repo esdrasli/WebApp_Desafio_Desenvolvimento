@@ -10,6 +10,41 @@
         language: 'pt-BR'
     });
 
+    $('.input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: false,
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        language: 'pt-BR'
+    });
+
+    $('#form').validate({
+        rules: {
+            Assunto: {
+                required: true,
+                maxlength: 30
+            },
+            Solicitante: {
+                required: true,
+                maxlength: 30
+            },
+
+        },
+        messages: {
+            assunto: {
+                required: "Por favor, informe o assunto.",
+                maxlength: "O assunto deve ter no máximo {0} caracteres."
+            },
+            solicitante: {
+                required: "Por favor, informe o nome do solicitante.",
+                maxlength: "O campo de nome deve ter no máximo {0} caracteres."
+            },
+
+        }
+    });
+
     $('#btnCancelar').click(function () {
         Swal.fire({
             html: "Deseja cancelar essa operação? O registro não será salvo.",
